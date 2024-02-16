@@ -5,7 +5,7 @@ import { BookingProvider } from 'context/bookingContext';
 
 const App = () => (
 	<BookingProvider>
-		<ToastContainer progressClassName="toastProgress" />
+		<ToastContainer progressClassName="toastProgress" position='top-center' />
 		<Layout />
 	</BookingProvider>
 );
