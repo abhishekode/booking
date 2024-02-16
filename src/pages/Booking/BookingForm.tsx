@@ -130,7 +130,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                         {errors?.email && <div className="text-red-500 text-sm">{errors.email}</div>}
                     </div>
 
-                    {!booking?.dateOfBooking && <div className="mb-5">
+                    {/* {!booking?.dateOfBooking && <div className="mb-5">
                         <label htmlFor="dateOfBooking" className="block mb-2 text-sm font-medium">Date Of Booking</label>
                         <input
                             type="date"
@@ -142,7 +142,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                             onChange={handleInputChange}
                         />
                         {errors?.dateOfBooking && <div className="text-red-500 text-sm">{errors.dateOfBooking}</div>}
-                    </div>}
+                    </div>} */}
 
                     <button
                         type="submit"
