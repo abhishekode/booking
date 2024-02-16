@@ -57,45 +57,47 @@ const Booking = () => {
             onChange={(e) => setBookingDate(e.target.value)}
           />
         </div>
-        <div className="mb-16">
-          <h2 className="text-lg font-semibold mb-2">Lower Deck</h2>
-          <p className="text-sm mb-4">Click on an available seat to proceed with your transaction.</p>
-          <div className="flex w-full gap-2">
-            <div className="flex gap-2 flex-col">
-              <button className="bg-gray-200 h-36 max-w-12 px-2 py-3" disabled><GiSteeringWheel /></button>
-            </div>
-            <div className="grid grid-cols-5 gap-4 w-full">
-              {lowerDeckSeatNumbers.map(seat => (
-                <BookingTab
-                  key={seat}
-                  selectedSeat={selectedSeat}
-                  onClickBook={handleClick}
-                  seat={seat}
-                  bookedSeats={bookedSeats}
-                />
-              ))}
-            </div>
+        {bookingDate && <div className="">
+          <div className="mb-16">
+            <h2 className="text-lg font-semibold mb-2">Lower Deck</h2>
+            <p className="text-sm mb-4">Click on an available seat to proceed with your transaction.</p>
+            <div className="flex w-full gap-2">
+              <div className="flex gap-2 flex-col">
+                <button className="bg-gray-200 h-36 max-w-12 px-2 py-3" disabled><GiSteeringWheel /></button>
+              </div>
+              <div className="grid grid-cols-5 gap-4 w-full">
+                {lowerDeckSeatNumbers.map(seat => (
+                  <BookingTab
+                    key={seat}
+                    selectedSeat={selectedSeat}
+                    onClickBook={handleClick}
+                    seat={seat}
+                    bookedSeats={bookedSeats}
+                  />
+                ))}
+              </div>
 
-          </div>
-        </div>
-        <div>
-          <h2 className="text-lg font-semibold mb-2">Upper Deck</h2>
-          <p className="text-sm mb-4">Click on an available seat to proceed with your transaction.</p>
-          <div className="flex w-full gap-2">
-            <div className="grid grid-cols-5 gap-4 w-full">
-              {upperDeckSeatNumbers.map(seat => (
-                <BookingTab
-                  key={seat}
-                  selectedSeat={selectedSeat}
-                  onClickBook={handleClick}
-                  seat={seat}
-                  bookedSeats={bookedSeats}
-                />
-              ))}
             </div>
-
           </div>
-        </div>
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Upper Deck</h2>
+            <p className="text-sm mb-4">Click on an available seat to proceed with your transaction.</p>
+            <div className="flex w-full gap-2">
+              <div className="grid grid-cols-5 gap-4 w-full">
+                {upperDeckSeatNumbers.map(seat => (
+                  <BookingTab
+                    key={seat}
+                    selectedSeat={selectedSeat}
+                    onClickBook={handleClick}
+                    seat={seat}
+                    bookedSeats={bookedSeats}
+                  />
+                ))}
+              </div>
+
+            </div>
+          </div>
+        </div>}
       </div>
     </div>
   );

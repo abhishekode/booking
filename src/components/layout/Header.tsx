@@ -10,11 +10,7 @@ const Header = () => {
             <span className="text-xl font-bold">Bus-booking</span>
           </p>
         </Link>
-        <nav className="flex flex-wrap items-center text-base justify-center">
-          <p className="hover:text-gray-900">
-            <Link to={'/booking-new'}>Booking New</Link>
-          </p>
-        </nav>
+
       </div>
     </header>
   )

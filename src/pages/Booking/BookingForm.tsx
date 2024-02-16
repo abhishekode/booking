@@ -3,6 +3,7 @@ import CustomModal from 'components/common/Model';
 import { useBooking } from 'context/bookingContext';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface BookingFormProps {
     isOpen: boolean;
@@ -12,7 +13,7 @@ interface BookingFormProps {
     bookingDate?: string;
 }
 const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking, bookingDate }) => {
-    const { addNewBooking, updateBookingItem } = useBooking()
+    const { addNewBooking, bookingItems, updateBookingItem } = useBooking()
     const navigate = useNavigate()
     const seatNumber: 'upper' | 'lower' = heading as any;
     const deck = seatNumber.match(/^[a-zA-Z]+/)?.[0];
@@ -64,6 +65,14 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
             if (booking?.seatNumber) {
                 updateBookingItem(booking.seatNumber, state)
             } else {
+                const bookedSeats = bookingItems.find((item) => (
+                    item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber
+                ));
+                if (bookedSeats) {
+                    toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
+                    return;
+                }
+
                 addNewBooking(state)
                 navigate(`/booking/${state.seatNumber}`)
             }
