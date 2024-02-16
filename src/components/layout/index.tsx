@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { publicRoutes } from 'Routes';
+import { publicRoutes } from 'routes';
 import Header from './Header';
-import Footer from './Footer';
 
 type RouteObject = {
   path: string;
@@ -25,7 +24,6 @@ const Layout = () => {
           <Route>{renderRoutes(publicRoutes)}</Route>
         </Routes>
       </div>
-      <Footer />
     </div>
   )
 }

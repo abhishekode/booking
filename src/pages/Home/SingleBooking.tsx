@@ -26,9 +26,9 @@ const SingleBooking: React.FC<SingleBookingProps> = ({ booking }) => {
                 <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap capitalize">
                     {`${booking.firstName} ${booking.lastName}`}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">{booking.deck}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{booking.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{booking.seatNumber}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{booking.deck}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{booking.seatNumber.substring(5)}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{booking.dateOfBooking}</td>
                 <td className="">
                     <button

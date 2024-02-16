@@ -2,20 +2,23 @@ import { IBooking } from 'Interfaces/booking';
 import CustomModal from 'components/common/Model';
 import { useBooking } from 'context/bookingContext';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 interface BookingFormProps {
     isOpen: boolean;
     toggleModel: () => void;
     heading: string | null;
     booking?: IBooking;
+    bookingDate?: string;
 }
-const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking, bookingDate }) => {
     const { addNewBooking, updateBookingItem } = useBooking()
+    const navigate = useNavigate()
     const seatNumber: 'upper' | 'lower' = heading as any;
     const deck = seatNumber.match(/^[a-zA-Z]+/)?.[0];
 
     const [state, setState] = useState<IBooking>({
-        dateOfBooking: booking?.dateOfBooking || '',
+        dateOfBooking: booking?.dateOfBooking || bookingDate || '',
         deck: booking?.deck || deck || '',
         firstName: booking?.firstName || '',
         lastName: booking?.lastName || '',
@@ -62,6 +65,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                 updateBookingItem(booking.seatNumber, state)
             } else {
                 addNewBooking(state)
+                navigate(`/booking/${state.seatNumber}`)
             }
             toggleModel()
         } catch (error) {
@@ -127,6 +131,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                             name='dateOfBooking'
                             className="border block w-full p-2.5"
                             value={state.dateOfBooking}
+                            min={new Date().toISOString().split('T')[0]}
                             onChange={handleInputChange}
                         />
                         {errors?.dateOfBooking && <div className="text-red-500 text-sm">{errors.dateOfBooking}</div>}
