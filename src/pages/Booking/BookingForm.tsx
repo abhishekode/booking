@@ -61,17 +61,16 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
         if (hasErrors) {
             return;
         }
-        const bookedSeats = bookingItems.find((item) => (
-            item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber
-        ));
-        if (bookedSeats) {
-            toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
-            return;
-        }
+        const bookedSeats = bookingItems.find((item) => item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber);
         try {
             if (booking?.seatNumber) {
                 updateBookingItem(booking.seatNumber, state)
             } else {
+
+                if (bookedSeats) {
+                    toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
+                    return;
+                }
                 addNewBooking(state)
                 navigate(`/booking/${state.seatNumber}`)
             }
@@ -131,7 +130,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                         {errors?.email && <div className="text-red-500 text-sm">{errors.email}</div>}
                     </div>
 
-                    <div className="mb-5">
+                    {!booking?.dateOfBooking && <div className="mb-5">
                         <label htmlFor="dateOfBooking" className="block mb-2 text-sm font-medium">Date Of Booking</label>
                         <input
                             type="date"
@@ -143,7 +142,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                             onChange={handleInputChange}
                         />
                         {errors?.dateOfBooking && <div className="text-red-500 text-sm">{errors.dateOfBooking}</div>}
-                    </div>
+                    </div>}
 
                     <button
                         type="submit"
