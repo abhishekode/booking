@@ -61,18 +61,17 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
         if (hasErrors) {
             return;
         }
+        const bookedSeats = bookingItems.find((item) => (
+            item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber
+        ));
+        if (bookedSeats) {
+            toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
+            return;
+        }
         try {
             if (booking?.seatNumber) {
                 updateBookingItem(booking.seatNumber, state)
             } else {
-                const bookedSeats = bookingItems.find((item) => (
-                    item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber
-                ));
-                if (bookedSeats) {
-                    toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
-                    return;
-                }
-
                 addNewBooking(state)
                 navigate(`/booking/${state.seatNumber}`)
             }
