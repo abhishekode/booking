@@ -37,7 +37,7 @@ const Booking = () => {
     setIsForBooking(!isForBooking)
   }
 
-
+  console.log('bookedSeats', bookedSeats);
 
   return (
     <div>
