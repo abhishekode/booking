@@ -1,12 +1,9 @@
-import { IBooking } from 'Interfaces/booking'
-import SureDeleteBooking from 'components/alert/SureDeleteBooking';
-import BookingForm from 'pages/Booking/BookingForm';
+import { SingleBookingProps } from 'Interfaces/booking'
+import SureDeleteBooking from 'components/alert/sureDeleteBooking';
+import BookingForm from 'pages/Booking/bookingForm';
 import React, { useState } from 'react'
+import { MdDelete, MdModeEdit } from 'react-icons/md';
 
-interface SingleBookingProps {
-    booking: IBooking;
-    bookingIndex: number;
-}
 const SingleBooking: React.FC<SingleBookingProps> = ({ booking, bookingIndex }) => {
     const [editBooking, setEditBooking] = useState<boolean>(false)
     const [deleteBooking, setDeleteBooking] = useState<boolean>(false)
@@ -45,18 +42,18 @@ const SingleBooking: React.FC<SingleBookingProps> = ({ booking, bookingIndex }) 
                 <td className="px-6 py-4 whitespace-nowrap">{booking.deck}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{booking.seatNumber.substring(5)}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{booking.dateOfBooking}</td>
-                <td className="">
+                <td className="flex gap-x-3 py-3 px-6 whitespace-nowrap capitalize">
                     <button
-                        className="py-2 px-3 font-medium text-orange-600 hover:text-orange-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                         onClick={toggleModal}
                     >
-                        Edit
+                        <MdModeEdit />
                     </button>
                     <button
-                        className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                         onClick={toggleDeleteModal}
                     >
-                        Delete
+                        <MdDelete />
                     </button>
                 </td>
             </tr>

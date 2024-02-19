@@ -1,14 +1,10 @@
-import AlertModel from 'components/common/AlertModel';
+import { SureDeleteBookingProps } from 'Interfaces/booking';
+import AlertModel from 'components/common/alertModel';
 import { useBooking } from 'context/bookingContext';
 import React from 'react'
 import { FaPersonCircleQuestion } from 'react-icons/fa6';
 import { GrClose } from 'react-icons/gr';
 
-interface SureDeleteBookingProps {
-	isOpen: boolean;
-	toggleModel: () => void;
-	bookingIndex: number;
-}
 const SureDeleteBooking: React.FC<SureDeleteBookingProps> = ({ isOpen, toggleModel, bookingIndex }) => {
 
 	const { removeBookingItem } = useBooking();
@@ -16,7 +12,8 @@ const SureDeleteBooking: React.FC<SureDeleteBookingProps> = ({ isOpen, toggleMod
 	const handleLogoutUser = () => {
 		toggleModel()
 		removeBookingItem(bookingIndex)
-	}
+	};
+
 	return (
 		<AlertModel isOpen={isOpen} toggleModal={toggleModel} >
 			<div className="">
@@ -30,7 +27,6 @@ const SureDeleteBooking: React.FC<SureDeleteBookingProps> = ({ isOpen, toggleMod
 							<span className="sr-only">Close modal</span>
 						</button>
 						<div className="p-6 text-center">
-
 							<FaPersonCircleQuestion className="mx-auto mb-4 text-gray-700 w-12 h-12" />
 							<h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this booking?</h3>
 							<button

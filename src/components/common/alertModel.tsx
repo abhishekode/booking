@@ -1,3 +1,4 @@
+import { ModalProps } from 'Interfaces/alertModel';
 import React from 'react';
 import Modal from 'react-modal';
 
@@ -11,12 +12,6 @@ const customStyles = {
 		zIndex: 999, // Set the z-index to 999
 	},
 };
-
-interface ModalProps {
-	isOpen: boolean;
-	toggleModal: () => void;
-	children?: React.ReactNode;
-}
 
 const AlertModel: React.FC<ModalProps> = ({ isOpen, toggleModal, children }) => {
 	return (
