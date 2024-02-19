@@ -11,11 +11,13 @@ interface BookingFormProps {
     heading: string | null;
     booking?: IBooking;
     bookingDate?: string;
+    bookingIndex?: number;
 }
-const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking, bookingDate }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking, bookingDate, bookingIndex }) => {
     const { addNewBooking, bookingItems, updateBookingItem } = useBooking()
     const navigate = useNavigate()
-    const seatNumber: 'upper' | 'lower' = heading as any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const seatNumber: 'upper' | 'lower' = heading as unknown as any;
     const deck = seatNumber.match(/^[a-zA-Z]+/)?.[0];
 
     const [state, setState] = useState<IBooking>({
@@ -63,8 +65,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
         }
         const bookedSeats = bookingItems.find((item) => item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber);
         try {
-            if (booking?.seatNumber) {
-                updateBookingItem(booking.seatNumber, state)
+            if (bookingIndex) {
+                updateBookingItem(bookingIndex, state)
             } else {
 
                 if (bookedSeats) {
@@ -72,7 +74,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                     return;
                 }
                 addNewBooking(state)
-                navigate(`/booking/${state.seatNumber}`)
+                navigate(`/booking/${state.seatNumber}?${state.dateOfBooking}`)
             }
             toggleModel()
         } catch (error) {

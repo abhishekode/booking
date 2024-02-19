@@ -6,9 +6,8 @@ import { IBooking, BookingUpdateData } from 'Interfaces/booking';
 interface BookingContextType {
     bookingItems: IBooking[];
     addNewBooking: (product: IBooking) => void;
-    updateBookingItem: (seatNumber: string, updatedData: BookingUpdateData) => void;
-    removeBookingItem: (seatNumber: string) => void;
-    clearAllBooking: () => void;
+    updateBookingItem: (index: number, updatedData: BookingUpdateData) => void;
+    removeBookingItem: (index: number) => void;
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
@@ -21,19 +20,25 @@ export const BookingProvider: React.FC<BookingProviderProps> = ({ children }) =>
     const [bookingItems, setBookingItems] = useState<IBooking[]>([]);
     const storageKey = 'bookings';
 
+    const bookingItemFromLocalStorage = JSON.parse(localStorage.getItem(storageKey) || '[]')
     useEffect(() => {
-        const storedBookingItems = JSON.parse(localStorage.getItem(storageKey) || '[]') as IBooking[];
-        setBookingItems(storedBookingItems);
+        if (bookingItemFromLocalStorage.length > 0) {
+
+            setBookingItems(bookingItemFromLocalStorage);
+        } else {
+            setBookingItems([])
+        }
     }, []);
 
     useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(bookingItems));
+        if(bookingItems.length > 0){
+            localStorage.setItem(storageKey, JSON.stringify(bookingItems));
+        }
     }, [bookingItems]);
 
-    const updateBookingItem = (seatNumber: string, updatedData: BookingUpdateData) => {
-        // Find the item in the cart and update its quantity
-        const updatedCart = bookingItems.map(item => {
-            if (item.seatNumber === seatNumber) {
+    const updateBookingItem = (index: number, updatedData: BookingUpdateData) => {
+        const updatedCart = bookingItems.map((item, idx) => {
+            if (idx === index) {
                 return { ...item, ...updatedData };
             }
             return item;
@@ -42,15 +47,14 @@ export const BookingProvider: React.FC<BookingProviderProps> = ({ children }) =>
         setBookingItems(updatedCart);
     };
 
-    const removeBookingItem = (seatNumber: string) => {
-        // Filter out the item to remove it from the cart
-        const updatedCart = bookingItems.filter(item => item.seatNumber !== seatNumber);
+    const removeBookingItem = (index: number) => {
+        const updatedCart = bookingItems.filter((item, idx) => idx !== index);
         setBookingItems(updatedCart);
     };
 
     const addNewBooking = (product: IBooking) => {
         setBookingItems((prevBookingItems) => {
-            const itemIndex = prevBookingItems.findIndex((item) => item.seatNumber === product.seatNumber);
+            const itemIndex = prevBookingItems.findIndex((item) => item.dateOfBooking === product.dateOfBooking && item.seatNumber === product.seatNumber);
 
             if (itemIndex !== -1) {
                 toast.error(`This ${product.seatNumber} is already booked`)
@@ -63,9 +67,6 @@ export const BookingProvider: React.FC<BookingProviderProps> = ({ children }) =>
 
 
 
-    const clearAllBooking = () => {
-        setBookingItems([]);
-    };
 
     return (
         <BookingContext.Provider
@@ -74,7 +75,6 @@ export const BookingProvider: React.FC<BookingProviderProps> = ({ children }) =>
                 addNewBooking,
                 updateBookingItem,
                 removeBookingItem,
-                clearAllBooking,
             }}
         >
             {children}

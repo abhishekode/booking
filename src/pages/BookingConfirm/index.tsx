@@ -1,13 +1,16 @@
 import React from 'react'
 import { useBooking } from 'context/bookingContext'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const BookingConfirm = () => {
-    const params = useParams()
+    const location = useLocation();
     const { bookingItems } = useBooking()
 
-    const seatNumber = params['seatNumber'];
-    const bookingDetail = bookingItems.find(item => item.seatNumber === seatNumber)
+    const pathname = location.pathname;
+    const tickerId = pathname.split("/")[2];
+    const bookingDate = location.search.split('?')[1];
+
+    const bookingDetail = bookingItems.find(item => item.seatNumber === tickerId && item.dateOfBooking === bookingDate)
 
     return (
         <div>

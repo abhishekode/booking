@@ -7,15 +7,15 @@ import { GrClose } from 'react-icons/gr';
 interface SureDeleteBookingProps {
 	isOpen: boolean;
 	toggleModel: () => void;
-	seatNumber: string;
+	bookingIndex: number;
 }
-const SureDeleteBooking: React.FC<SureDeleteBookingProps> = ({ isOpen, toggleModel, seatNumber }) => {
+const SureDeleteBooking: React.FC<SureDeleteBookingProps> = ({ isOpen, toggleModel, bookingIndex }) => {
 
 	const { removeBookingItem } = useBooking();
 
 	const handleLogoutUser = () => {
 		toggleModel()
-		removeBookingItem(seatNumber)
+		removeBookingItem(bookingIndex)
 	}
 	return (
 		<AlertModel isOpen={isOpen} toggleModal={toggleModel} >

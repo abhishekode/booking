@@ -29,8 +29,8 @@ const Home = () => {
               </thead>
               <tbody className="text-gray-600 divide-y">
                 {
-                  bookingItems.map((booking) => (
-                    <SingleBooking booking={booking} key={booking.seatNumber} />
+                  bookingItems.map((booking, index:number) => (
+                    <SingleBooking booking={booking} key={index} bookingIndex={index} />
                   ))}
               </tbody>
             </table>

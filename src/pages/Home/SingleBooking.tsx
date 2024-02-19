@@ -5,8 +5,9 @@ import React, { useState } from 'react'
 
 interface SingleBookingProps {
     booking: IBooking;
+    bookingIndex: number;
 }
-const SingleBooking: React.FC<SingleBookingProps> = ({ booking }) => {
+const SingleBooking: React.FC<SingleBookingProps> = ({ booking, bookingIndex }) => {
     const [editBooking, setEditBooking] = useState<boolean>(false)
     const [deleteBooking, setDeleteBooking] = useState<boolean>(false)
 
@@ -20,8 +21,22 @@ const SingleBooking: React.FC<SingleBookingProps> = ({ booking }) => {
 
     return (
         <>
-            {editBooking && <BookingForm isOpen={editBooking} toggleModel={toggleModal} heading={booking.seatNumber} booking={booking} />}
-            {deleteBooking && <SureDeleteBooking isOpen={deleteBooking} toggleModel={toggleDeleteModal} seatNumber={booking.seatNumber} />}
+            {editBooking && (
+                <BookingForm
+                    isOpen={editBooking}
+                    toggleModel={toggleModal}
+                    heading={booking.seatNumber}
+                    booking={booking}
+                    bookingIndex={bookingIndex}
+                />
+            )}
+            {deleteBooking && (
+                <SureDeleteBooking
+                    isOpen={deleteBooking}
+                    toggleModel={toggleDeleteModal}
+                    bookingIndex={bookingIndex}
+                />
+            )}
             <tr>
                 <td className="flex items-center gap-x-3 py-3 px-6 whitespace-nowrap capitalize">
                     {`${booking.firstName} ${booking.lastName}`}
