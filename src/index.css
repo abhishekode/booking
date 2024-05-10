@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;1,200&display=swap");
+@import 'codemirror/lib/codemirror.css';
+@import 'codemirror/theme/material.css';
 
 body {
   margin: 0;
@@ -27,4 +29,22 @@ code {
 
 .toastProgress {
   background: #dd5902 !important;
+}
+
+
+.CodeMirror {
+  min-height: 80vh !important;
+  color: #fff;
+}
+
+.CodeMirror-gutters {
+  background: #1d1e22 !important;
+}
+
+.CodeMirror-scroll {
+  background: #1d1e22;
+}
+
+.controlled-editor .CodeMirror:first-child{
+  display: none !important;
 }
