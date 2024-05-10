@@ -1,18 +1,11 @@
-import { IBooking } from 'Interfaces/booking';
-import CustomModal from 'components/common/Model';
+import { BookingFormProps, IBooking } from 'Interfaces/booking';
+import CustomModal from 'components/common/model';
 import { useBooking } from 'context/bookingContext';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-interface BookingFormProps {
-    isOpen: boolean;
-    toggleModel: () => void;
-    heading: string | null;
-    booking?: IBooking;
-    bookingDate?: string;
-    bookingIndex?: number;
-}
+
 const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading, booking, bookingDate, bookingIndex }) => {
     const { addNewBooking, bookingItems, updateBookingItem } = useBooking()
     const navigate = useNavigate()
@@ -55,26 +48,23 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
         return Object.values(newErrors).some(error => error.trim() !== '');
     };
 
-
-
     const handleNewBooking = async (e: { preventDefault: () => void }) => {
-        e.preventDefault()
-        const hasErrors = validateForm();
-        if (hasErrors) {
-            return;
-        }
-        const bookedSeats = bookingItems.find((item) => item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber);
         try {
-            if (bookingIndex) {
-                updateBookingItem(bookingIndex, state)
-            } else {
+            e.preventDefault()
+            const hasErrors = validateForm();
+            if (hasErrors) {
+                return;
+            }
 
-                if (bookedSeats) {
-                    toast.error(`On ${state.dateOfBooking} this ${state.seatNumber} is already booked`)
-                    return;
-                }
-                addNewBooking(state)
-                navigate(`/booking/${state.seatNumber}?${state.dateOfBooking}`)
+            const bookedSeats = bookingItems.find((item) => item.dateOfBooking === state.dateOfBooking && item.seatNumber === state.seatNumber);
+            if (typeof bookingIndex === "number" && bookingIndex >= 0) {
+                updateBookingItem(bookingIndex, state)
+            } else if (bookedSeats) {
+                toast.error(`Seat ${state.seatNumber} on ${state.dateOfBooking} is already booked.`);
+                return;
+            } else {
+                addNewBooking(state);
+                navigate(`/booking/${state.seatNumber}?${state.dateOfBooking}`);
             }
             toggleModel()
         } catch (error) {
@@ -87,6 +77,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
             setState(booking);
         }
     }, []);
+
     return (
         <div>
             <CustomModal heading={heading || 'Heading'} isOpen={isOpen} toggleModal={toggleModel}>
@@ -131,20 +122,6 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, toggleModel, heading,
                         />
                         {errors?.email && <div className="text-red-500 text-sm">{errors.email}</div>}
                     </div>
-
-                    {/* {!booking?.dateOfBooking && <div className="mb-5">
-                        <label htmlFor="dateOfBooking" className="block mb-2 text-sm font-medium">Date Of Booking</label>
-                        <input
-                            type="date"
-                            id="dateOfBooking"
-                            name='dateOfBooking'
-                            className="border block w-full p-2.5"
-                            value={state.dateOfBooking}
-                            min={new Date().toISOString().split('T')[0]}
-                            onChange={handleInputChange}
-                        />
-                        {errors?.dateOfBooking && <div className="text-red-500 text-sm">{errors.dateOfBooking}</div>}
-                    </div>} */}
 
                     <button
                         type="submit"
